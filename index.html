@@ -6,6 +6,8 @@
   <title>Happy Birthday, My Kanmani 💖</title>
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for music icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root{
       --pink:#ff4d94;--rose:#ff86b8;--violet:#a96bff;--gold:#ffd166;--bg1:#fff0f6;--bg2:#ffe7f3;--ink:#1f1422;
@@ -38,6 +40,64 @@
     }
     @keyframes pop{from{transform:translateY(10px) scale(.98); opacity:0}to{transform:translateY(0) scale(1); opacity:1}}
     .subtitle{font-weight:600; opacity:.8; margin:.25rem 0 0}
+
+    /* Music player controls */
+    .music-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50px;
+      padding: 10px 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(5px);
+      transition: transform 0.3s ease;
+    }
+    .music-controls:hover {
+      transform: translateY(-3px);
+    }
+    .music-btn {
+      background: var(--pink);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .music-btn:hover {
+      background: var(--rose);
+      transform: scale(1.1);
+    }
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .volume-slider {
+      width: 80px;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: #e0e0e0;
+      outline: none;
+    }
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--pink);
+      cursor: pointer;
+    }
 
     /* Love letter card */
     .container{width:min(1100px,92vw); margin:0 auto; padding:0 0 3rem}
@@ -115,12 +175,44 @@
       .glow-bg,.float,canvas#fx,canvas#sky{display:none}
       *{animation:none !important; transition:none !important}
     }
+    
+    /* Music note animation */
+    .music-note {
+      position: fixed;
+      font-size: 1.5rem;
+      opacity: 0;
+      z-index: 4;
+      pointer-events: none;
+      animation: float-note 8s linear forwards;
+    }
+    
+    @keyframes float-note {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="glow-bg"></div>
   <canvas id="sky" aria-hidden="true"></canvas>
   <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Music player controls -->
+  <div class="music-controls">
+    <button class="music-btn" id="playPauseBtn">
+      <i class="fas fa-play"></i>
+    </button>
+    <div class="volume-control">
+      <i class="fas fa-volume-up"></i>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+    </div>
+  </div>
 
   <header>
     <div class="title">Happy Birthday, My Kanmani 💖</div>
@@ -184,26 +276,94 @@
     Made with ridiculous amounts of love. ❤️
   </footer>
 
+  <!-- Audio element for the violin music -->
+  <audio id="violinMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
-    // ===== Helper: Typewriter for the opening line =====
-    // ===== Helper: Typewriter for the opening line =====
-		const twEl = document.getElementById('tw');
+    // ===== Music Player Functionality =====
+    const violinMusic = document.getElementById('violinMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    let isPlaying = false;
+    
+    // Set initial volume
+    violinMusic.volume = volumeSlider.value;
+    
+    // Play/Pause functionality
+    playPauseBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        violinMusic.pause();
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+      } else {
+        violinMusic.play().catch(e => {
+          console.log("Audio play failed:", e);
+          // Show play button to indicate user interaction is needed
+          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      }
+      isPlaying = !isPlaying;
+    });
+    
+    // Volume control
+    volumeSlider.addEventListener('input', () => {
+      violinMusic.volume = volumeSlider.value;
+    });
+    
+    // Auto-play music when page loads (with user gesture requirement handling)
+    window.addEventListener('load', () => {
+      // Try to play automatically (may require user interaction on some browsers)
+      violinMusic.play().then(() => {
+        isPlaying = true;
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      }).catch(e => {
+        console.log("Autoplay prevented:", e);
+        // Show play button to indicate user needs to interact
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+      });
+    });
+    
+    // Create floating music notes occasionally when music is playing
+    function createMusicNote() {
+      if (!isPlaying) return;
+      
+      const note = document.createElement('div');
+      note.className = 'music-note';
+      note.innerHTML = '♪';
+      note.style.left = Math.random() * 100 + 'vw';
+      note.style.color = ['#ff4d94', '#a96bff', '#ffd166'][Math.floor(Math.random() * 3)];
+      note.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+      document.body.appendChild(note);
+      
+      setTimeout(() => {
+        document.body.removeChild(note);
+      }, 8000);
+    }
+    
+    // Periodically create music notes
+    setInterval(createMusicNote, 2000);
 
-		// --- In-place CSS adjustment ---
-		twEl.style.whiteSpace = "pre-wrap";
-		twEl.style.overflowWrap = "break-word";
-		// If you want to adjust font size too:
-		// twEl.style.fontSize = "4vw"; 
+    // ===== Helper: Typewriter for the opening line =====
+    const twEl = document.getElementById('tw');
 
-		const twText = "You are not just my love… you are my miracle. 💖";
-		let idx=0; 
-		function type(){ 
-		  if(idx<=twText.length){ 
-			twEl.textContent = twText.slice(0, idx++); 
-			setTimeout(type, 24); 
-		  } 
-		}
-		type();
+    // --- In-place CSS adjustment ---
+    twEl.style.whiteSpace = "pre-wrap";
+    twEl.style.overflowWrap = "break-word";
+    // If you want to adjust font size too:
+    // twEl.style.fontSize = "4vw"; 
+
+    const twText = "You are not just my love… you are my miracle. 💖";
+    let idx=0; 
+    function type(){ 
+      if(idx<=twText.length){ 
+        twEl.textContent = twText.slice(0, idx++); 
+        setTimeout(type, 24); 
+      } 
+    }
+    type();
 
     // ===== Disagree (playful) =====
     document.getElementById('disagreeBtn').addEventListener('click',()=>{
