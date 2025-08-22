@@ -52,13 +52,7 @@
     }
     .letter h2{font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,4.5vw,3rem); color:var(--pink); margin:0 0 .5rem}
     .letter p{line-height:1.9; font-size:clamp(1rem,2.6vw,1.15rem); margin:.6rem 0}
-    .typewriter{
-      display:inline-block; 
-      border-right:2px solid var(--rose); 
-      white-space: normal; /* Changed from nowrap to normal */
-      overflow:hidden;
-      word-wrap: break-word; /* Ensure long words break */
-    }
+    .typewriter{display:inline-block; border-right:2px solid var(--rose); white-space:nowrap; overflow:hidden}
 
     /* Terms box */
     .terms{margin:1.25rem 0 1.25rem; background:#fff8fb; border:1px solid rgba(255,77,148,.18); border-radius:16px; padding:1rem 1.25rem}
@@ -121,21 +115,6 @@
       .glow-bg,.float,canvas#fx,canvas#sky{display:none}
       *{animation:none !important; transition:none !important}
     }
-    
-    /* Scroll animation trigger class */
-    .animate-typing .typewriter {
-      animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-    }
-    
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: var(--rose) }
-    }
   </style>
 </head>
 <body>
@@ -160,8 +139,8 @@
       <p>
         I am endlessly grateful that destiny made you mine — my sweetest blessing, my comfort, my partner in laughter and madness. Stay my little puchkie always, because I truly can't imagine a tomorrow without you.
       </p>
-      <p id="special-line">
-        <span class="typewriter">You are not just my love… you are my miracle. 💖</span>
+      <p>
+        <span id="tw" class="typewriter"></span>
       </p>
 
       <div class="terms">
@@ -206,31 +185,25 @@
   </footer>
 
   <script>
-    // ===== Scroll-triggered typing animation =====
-    const specialLine = document.getElementById('special-line');
-    const typewriter = document.querySelector('.typewriter');
-    let animationTriggered = false;
+    // ===== Helper: Typewriter for the opening line =====
+    // ===== Helper: Typewriter for the opening line =====
+		const twEl = document.getElementById('tw');
 
-    function checkScroll() {
-      const elementTop = specialLine.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-      
-      // If element is in view and animation hasn't been triggered yet
-      if (elementTop < windowHeight * 0.75 && !animationTriggered) {
-        specialLine.classList.add('animate-typing');
-        animationTriggered = true;
-        
-        // Remove the cursor after animation completes
-        setTimeout(() => {
-          typewriter.style.borderRight = 'none';
-        }, 3500);
-      }
-    }
+		// --- In-place CSS adjustment ---
+		twEl.style.whiteSpace = "pre-wrap";
+		twEl.style.overflowWrap = "break-word";
+		// If you want to adjust font size too:
+		// twEl.style.fontSize = "4vw"; 
 
-    // Listen for scroll events
-    window.addEventListener('scroll', checkScroll);
-    // Also check on page load in case the element is already in view
-    window.addEventListener('load', checkScroll);
+		const twText = "You are not just my love… you are my miracle. 💖";
+		let idx=0; 
+		function type(){ 
+		  if(idx<=twText.length){ 
+			twEl.textContent = twText.slice(0, idx++); 
+			setTimeout(type, 24); 
+		  } 
+		}
+		type();
 
     // ===== Disagree (playful) =====
     document.getElementById('disagreeBtn').addEventListener('click',()=>{
