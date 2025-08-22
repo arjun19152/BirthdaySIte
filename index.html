@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, My Kanmani 💖</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --pink:#ff4d94;--rose:#ff86b8;--violet:#a96bff;--gold:#ffd166;--bg1:#fff0f6;--bg2:#ffe7f3;--ink:#1f1422;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto; color:var(--ink);
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      overflow-x:hidden;
+    }
+    /* Animated background gradient glow */
+    .glow-bg{
+      position:fixed; inset:-30vmax; z-index:-2; filter:blur(80px); opacity:.6; pointer-events:none;
+      background: radial-gradient(50% 50% at 30% 30%, rgba(255,77,148,.45), transparent 60%),
+                  radial-gradient(45% 45% at 70% 70%, rgba(169,107,255,.35), transparent 60%),
+                  radial-gradient(40% 40% at 50% 20%, rgba(255,209,102,.35), transparent 60%);
+      animation: hue 18s linear infinite alternate;
+    }
+    @keyframes hue{from{filter:hue-rotate(0deg) blur(80px)}to{filter:hue-rotate(25deg) blur(80px)}}
+
+    header{
+      text-align:center; padding:6rem 1.25rem 2rem; position:relative;
+    }
+    .title{
+      font-family:'Great Vibes',cursive; font-size:clamp(2.4rem,7vw,5rem); color:var(--pink);
+      text-shadow:0 6px 18px rgba(255,77,148,.25);
+      letter-spacing:.5px; margin:.25rem 0;
+      animation: pop 1.1s ease-out both;
+    }
+    @keyframes pop{from{transform:translateY(10px) scale(.98); opacity:0}to{transform:translateY(0) scale(1); opacity:1}}
+    .subtitle{font-weight:600; opacity:.8; margin:.25rem 0 0}
+
+    /* Love letter card */
+    .container{width:min(1100px,92vw); margin:0 auto; padding:0 0 3rem}
+    .card{
+      background:#fff; border-radius:24px; padding:min(2.2rem,5vw); box-shadow:0 20px 60px rgba(0,0,0,.07);
+    }
+    .letter{
+      position:relative; overflow:hidden; border:1px dashed rgba(31,20,34,.12);
+      background:linear-gradient(#fff,#fff),
+                 repeating-linear-gradient(0deg,transparent 0 28px, rgba(255,77,148,.075) 28px 29px);
+      border-radius:18px;
+    }
+    .letter h2{font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,4.5vw,3rem); color:var(--pink); margin:0 0 .5rem}
+    .letter p{line-height:1.9; font-size:clamp(1rem,2.6vw,1.15rem); margin:.6rem 0}
+    .typewriter{display:inline-block; border-right:2px solid var(--rose); white-space:nowrap; overflow:hidden}
+
+    /* Terms box */
+    .terms{margin:1.25rem 0 1.25rem; background:#fff8fb; border:1px solid rgba(255,77,148,.18); border-radius:16px; padding:1rem 1.25rem}
+    .terms h3{margin:.25rem 0 .75rem; color:var(--pink)}
+    .terms ul{padding-left:1rem; margin:0}
+    .terms li{margin:.5rem 0; display:flex; gap:.6rem; align-items:flex-start}
+    .terms li:before{content:'✔'; color:var(--violet); font-weight:700; transform:translateY(2px)}
+
+    .cta{display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center; margin:1rem 0 0}
+    button{
+      border:0; cursor:pointer; padding:.9rem 1.4rem; border-radius:999px; font-weight:700; font-size:1rem;
+      box-shadow:0 8px 20px rgba(0,0,0,.08); transition:.25s transform,.25s box-shadow,.25s background;
+    }
+    .btn-primary{background:linear-gradient(135deg,var(--pink),var(--rose)); color:#fff}
+    .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(255,77,148,.35)}
+    .btn-ghost{background:#fff; color:#333}
+    .btn-ghost:hover{transform:translateY(-2px)}
+
+    /* Coupons */
+    #coupons{margin:2.2rem 0 0; text-align:center}
+    #coupons h2{font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,5vw,3rem); color:var(--violet); margin:0 0 .5rem}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; margin-top:1.2rem}
+    .coupon{
+      perspective:1000px; position:relative; height:170px;
+    }
+    .flip{
+      position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .7s cubic-bezier(.2,.7,.2,1);
+    }
+    .coupon input{display:none}
+    .coupon input:checked ~ .flip{transform:rotateY(180deg)}
+    .face{
+      position:absolute; inset:0; border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:1rem; backface-visibility:hidden; box-shadow:0 14px 36px rgba(0,0,0,.08);
+    }
+    .front{background:linear-gradient(135deg,#ffffff,#fff5fa); border:1px solid rgba(255,77,148,.15)}
+    .back{background:linear-gradient(135deg,#f7edff,#fff); transform:rotateY(180deg); border:1px solid rgba(169,107,255,.18)}
+    .emoji{font-size:1.7rem; margin-bottom:.3rem}
+    .label{font-weight:700; color:#bf2a76}
+    .pick{position:absolute; top:10px; left:10px; background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:999px; padding:.4rem .7rem; font-size:.85rem}
+
+    .pill{display:inline-block; margin-top:.4rem; padding:.35rem .7rem; border-radius:999px; background:#ffe3f0; font-size:.75rem}
+
+    .limit-note{margin-top:.75rem; opacity:.8}
+
+    .result{margin:1.4rem auto 0; max-width:720px; display:none}
+    .result.show{display:block}
+    .result .box{background:#fff0f6; border:1px solid rgba(255,77,148,.25); border-radius:18px; padding:1rem 1.25rem}
+
+    /* Floating party elements */
+    .float{position:fixed; z-index:2; pointer-events:none; opacity:.9; animation:rise linear forwards}
+    @keyframes rise{from{transform:translateY(100vh) scale(.9); opacity:.0}to{transform:translateY(-10vh) scale(1.1); opacity:1}}
+
+    /* Canvas layers for confetti/fireworks */
+    canvas#fx, canvas#sky{position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:3}
+    canvas#sky{z-index:1}
+
+    footer{padding:3rem 1rem 5rem; text-align:center; opacity:.8}
+
+    @media (prefers-reduced-motion: reduce){
+      .glow-bg,.float,canvas#fx,canvas#sky{display:none}
+      *{animation:none !important; transition:none !important}
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="title">Happy Birthday, My Kanmani 💖</div>
+    <div class="subtitle">Today, I celebrate <em>you</em> — my favorite human, my forever.</div>
+  </header>
+
+  <main class="container">
+    <section class="card letter">
+      <h2>My little ball of love,</h2>
+      <p>
+        From the moment you stepped into my life, my heart has never been the same. You brought with you a warmth that makes every day brighter, every silence sweeter, and every dream feel possible. My love didn't just grow — it blossomed into a garden of joy because of you.
+      </p>
+      <p>
+        Each time I see your beautiful face, I find myself falling head over heels again, like the very first time. You are my Kanmani, the one I promise to hold close forever, no matter where life takes us.
+      </p>
+      <p>
+        I am endlessly grateful that destiny made you mine — my sweetest blessing, my comfort, my partner in laughter and madness. Stay my little puchkie always, because I truly can't imagine a tomorrow without you.
+      </p>
+      <p>
+        <span id="tw" class="typewriter"></span>
+      </p>
+
+      <div class="terms">
+        <h3>Terms &amp; Conditions for This Year's Birthday Present 🎁</h3>
+        <ul>
+          <li>Recipient agrees to receive unlimited hugs and smoochies on demand. 💋</li>
+          <li>Disagreeing will trigger extra-tight cuddles as a corrective measure. 🤗</li>
+          <li>Self-doubt is strictly prohibited — you are breathtaking. ✨</li>
+          <li>Smiling at least 100 times today is mandatory. 😊</li>
+          <li>This agreement never expires and auto-renews every heartbeat. ♾️</li>
+        </ul>
+      </div>
+
+      <div class="cta" role="group" aria-label="Agreement buttons">
+        <button class="btn-primary" id="agreeBtn">Agree 💕</button>
+        <button class="btn-ghost" id="disagreeBtn">Disagree 🙈</button>
+      </div>
+    </section>
+
+    <section id="coupons" class="card" style="display:none">
+      <h2 class="title" style="font-size:clamp(1.8rem,5vw,3rem); margin:0 0 .25rem">Your Love Coupons 🎟️</h2>
+      <p style="text-align:center; margin:.25rem 0 .5rem">(Things you've asked me for before — pick any <strong>three</strong> 💞)</p>
+
+      <div class="grid" id="couponGrid" aria-live="polite"></div>
+      <div class="limit-note">Selected: <span id="count">0</span>/3</div>
+      <div class="cta" style="margin-top:1rem">
+        <button class="btn-primary" id="redeemBtn">Redeem Selected 🎉</button>
+        <button class="btn-ghost" id="resetBtn" title="Clear selections">Reset</button>
+      </div>
+
+      <div id="result" class="result" aria-live="polite">
+        <div class="box">
+          <h3 style="margin:.2rem 0 .6rem">Granted with all my heart 💞</h3>
+          <p id="chosen"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made with ridiculous amounts of love. ❤️
+  </footer>
+
+  <script>
+    // ===== Helper: Typewriter for the opening line =====
+    const twEl = document.getElementById('tw');
+    const twText = "You are not just my love… you are my miracle. 💖";
+    let idx=0; function type(){ if(idx<=twText.length){ twEl.textContent = twText.slice(0, idx++); setTimeout(type, 24); } }
+    type();
+
+    // ===== Disagree (playful) =====
+    document.getElementById('disagreeBtn').addEventListener('click',()=>{
+      alert("Oops 😅 You don't have a choice, silly! Love you ❤️");
+      burstConfetti();
+    });
+
+    // ===== Agree → reveal coupons + effects =====
+    const agreeBtn = document.getElementById('agreeBtn');
+    const coupons = document.getElementById('coupons');
+    agreeBtn.addEventListener('click',()=>{
+      coupons.style.display='block';
+      window.scrollTo({top:coupons.offsetTop-20, behavior:'smooth'});
+      partySequence();
+    });
+
+    // ===== Build coupon cards (flip + pick 3) =====
+    const items = [
+      {emoji:'🧴', text:'A fully sponsored visit to Dermat.'},
+      {emoji:'🍽️', text:'A delicious Sadhya at a fine dining restaurant.'},
+      {emoji:'💍', text:'A silver jewellery coupon worth ₹1500.'},
+      {emoji:'♟️', text:'A really cool chess board.'},
+      {emoji:'👗', text:'A really beautiful outfit worth ₹1500.'},
+      {emoji:'🌿', text:'A refreshing ayurvedic massage spa session at home.'},
+      {emoji:'🧸', text:'A big soft teddy bear.'},
+      {emoji:'🤗', text:'Unlimited hugs and smoochies.'},
+      {emoji:'💆‍♂️', text:'A very sensual massage by me.'},
+      {emoji:'🖋️', text:'A sweet poem & a hand‑made drawing of your beautiful face.'}
+    ];
+
+    const grid = document.getElementById('couponGrid');
+    const countEl = document.getElementById('count');
+    const chosenEl = document.getElementById('chosen');
+    let selected = new Set();
+
+    function makeId(i){return 'c'+i}
+    function renderCoupons(){
+      grid.innerHTML = '';
+      items.forEach((it,i)=>{
+        const id = makeId(i);
+        const checked = selected.has(i) ? 'checked' : '';
+        const el = document.createElement('label');
+        el.className='coupon';
+        el.innerHTML = `
+          <input id="${id}" type="checkbox" ${checked} />
+          <div class="flip">
+            <div class="face front">
+              <div class="emoji">${it.emoji}</div>
+              <div class="label">${it.text}</div>
+              <span class="pill">Tap to pick</span>
+            </div>
+            <div class="face back">
+              <div class="emoji">✨</div>
+              <div class="label">Locked in!</div>
+              <span class="pill">Selected</span>
+            </div>
+          </div>
+          <span class="pick">Pick</span>
+        `;
+        grid.appendChild(el);
+        const input = el.querySelector('input');
+        input.addEventListener('change',()=>onToggle(i,input.checked,el));
+      });
+      updateCount();
+    }
+
+    function onToggle(i,isChecked,el){
+      if(isChecked){
+        if(selected.size>=3){
+          // refuse and nudge
+          el.querySelector('input').checked = false;
+          pulse(el);
+          toast('You can pick only 3, my love 💕');
+          return;
+        }
+        selected.add(i);
+      } else selected.delete(i);
+      updateCount();
+    }
+    function updateCount(){ countEl.textContent = selected.size; }
+
+    document.getElementById('resetBtn').addEventListener('click',()=>{ selected.clear(); renderCoupons(); });
+
+    document.getElementById('redeemBtn').addEventListener('click',()=>{
+      if(selected.size!==3){ toast('Please choose exactly 3 ✨'); pulse(grid); return; }
+      const picks = [...selected].map(i=>items[i].text);
+      chosenEl.textContent = 'Your choices: '+picks.join(' • ');
+      document.getElementById('result').classList.add('show');
+      fireworks();
+      burstConfetti();
+    });
+
+    function pulse(node){ node.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:450}); }
+
+    // ===== Tiny toast =====
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style,{
+        position:'fixed', left:'50%', bottom:'22px', transform:'translateX(-50%)',
+        background:'#1f1422', color:'#fff', padding:'10px 14px', borderRadius:'999px',
+        boxShadow:'0 10px 30px rgba(0,0,0,.25)', zIndex:9999, fontSize:'14px'
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(), 1800);
+    }
+
+    // ===== Party sequence on Agree =====
+    function partySequence(){
+      spawnBalloons(18);
+      burstConfetti();
+      for(let i=0;i<3;i++) setTimeout(burstConfetti, 600*i);
+    }
+
+    // ===== Balloons / Hearts / Cakes rising =====
+    function spawnBalloons(n){
+      const icons = ['🎈','🎉','🎂','💖','🥳','💝'];
+      for(let i=0;i<n;i++){
+        const el = document.createElement('div');
+        el.className='float'; el.textContent = icons[Math.floor(Math.random()*icons.length)];
+        el.style.left = (Math.random()*100)+'vw';
+        el.style.fontSize = (Math.random()*1.2+1.2)+'rem';
+        el.style.animationDuration = (Math.random()*6+6)+'s';
+        document.body.appendChild(el);
+        setTimeout(()=>el.remove(), 12000);
+      }
+    }
+
+    // ===== Confetti (canvas) =====
+    const fx = document.getElementById('fx');
+    const fxc = fx.getContext('2d');
+    let bits = [];
+    function resizeFx(){ fx.width = innerWidth; fx.height = innerHeight }
+    addEventListener('resize', resizeFx); resizeFx();
+
+    function makeConfetti(count){
+      const colors=[[255,77,148],[169,107,255],[255,209,102],[255,134,184]];
+      for(let i=0;i<count;i++){
+        bits.push({
+          x:Math.random()*fx.width, y:-20, w:6+Math.random()*6, h:8+Math.random()*10,
+          vy:2+Math.random()*3, vx:-2+Math.random()*4, rot:Math.random()*Math.PI,
+          vr:-.2+Math.random()*.4, col:colors[(Math.random()*colors.length)|0]
+        });
+      }
+    }
+    function drawConfetti(){
+      fxc.clearRect(0,0,fx.width,fx.height);
+      for(const b of bits){
+        b.x+=b.vx; b.y+=b.vy; b.rot+=b.vr;
+        fxc.save(); fxc.translate(b.x,b.y); fxc.rotate(b.rot);
+        fxc.fillStyle = `rgba(${b.col[0]},${b.col[1]},${b.col[2]},.9)`;
+        fxc.fillRect(-b.w/2,-b.h/2,b.w,b.h);
+        fxc.restore();
+      }
+      bits = bits.filter(b=>b.y<fx.height+40);
+      requestAnimationFrame(drawConfetti);
+    }
+    drawConfetti();
+    function burstConfetti(){ makeConfetti(140); }
+
+    // ===== Fireworks (sky canvas) =====
+    const sky = document.getElementById('sky');
+    const sctx = sky.getContext('2d');
+    function resizeSky(){ sky.width = innerWidth; sky.height = innerHeight }
+    addEventListener('resize', resizeSky); resizeSky();
+
+    function fireworks(){
+      const cx = Math.random()*sky.width*0.8 + sky.width*0.1;
+      const cy = Math.random()*sky.height*0.35 + sky.height*0.15;
+      const parts=[]; const N=90; const baseHue=Math.random()*360;
+      for(let i=0;i<N;i++){
+        const a = (i/N)*Math.PI*2; const spd = 1+Math.random()*3.6;
+        parts.push({x:cx,y:cy, vx:Math.cos(a)*spd, vy:Math.sin(a)*spd, life:80+Math.random()*30, age:0, hue:baseHue+Math.random()*30});
+      }
+      let raf; const step=()=>{
+        sctx.globalCompositeOperation='lighter';
+        sctx.fillStyle='rgba(0,0,0,.08)'; sctx.fillRect(0,0,sky.width,sky.height);
+        for(const p of parts){
+          p.age++; p.x+=p.vx; p.y+=p.vy; p.vy+=0.02; // gravity
+          const alpha = Math.max(0,1-p.age/p.life);
+          sctx.fillStyle=`hsla(${p.hue},100%,70%,${alpha})`;
+          sctx.beginPath(); sctx.arc(p.x,p.y,2,0,Math.PI*2); sctx.fill();
+        }
+        if(parts.some(p=>p.age<p.life)) raf=requestAnimationFrame(step); else cancelAnimationFrame(raf);
+      }; step();
+      setTimeout(()=>fireworks(), 500+Math.random()*1200); // chain a few
+    }
+
+    // Build coupon UI initially
+    renderCoupons();
+  </script>
+</body>
+</html>
